@@ -14,9 +14,10 @@ const registerUser = async (req, res) => {
 			username: bodyData.username,
 			email: bodyData.email,
 			password: bodyData.password,
+			secretQuestion: bodyData.secretQuestion,
 			phone: bodyData.phone,
-			address: bodyData.address,
 			billing: bodyData.billing
+			
 		}).save();
 		
 		
@@ -171,7 +172,7 @@ const logoutUser = (req, res) => {
 const getUser = (req, res) => {
 	
 	let id = req.params.id;
-	// let token = req.params.token;
+	//let token = req.params.token;
 	
 	
 	UserModel.findById(
