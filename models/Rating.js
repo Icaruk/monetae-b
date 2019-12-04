@@ -4,20 +4,21 @@ const mongoose = require("mongoose");
 
 const RatingSchema = mongoose.Schema({
 	
-	itemId: {
-		type: String
+	productId: {
+		type: ObjectId
 	},
 	raterId: {
-		type: String
+		type: ObjectId
 	},
 	ratedId: {
-		type: String
+		type: ObjectId
 	},
 	value: {
 		type: Number
 	},
 	comment: {
-		type: String
+		type: String,
+		default: ""
 	}
 	
 });
