@@ -2,7 +2,6 @@
 const mongoose = require("mongoose");
 const ObjectId = mongoose.Types.ObjectId;
 
-
 const ProductSchema = mongoose.Schema({
 	
 	ownerId: {
