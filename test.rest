@@ -1,6 +1,14 @@
 
+@url = http://localhost:3000
+
+###
+
+// -----------------
+// U S E R
+// -----------------
+
 // Register
-POST http://localhost:3000/user/register
+POST {{url}}/user/register
 Content-Type:application/json
 
 {
@@ -20,7 +28,7 @@ Content-Type:application/json
 
 // Login
 # @name resLogin
-POST http://localhost:3000/user/login
+POST {{url}}/user/login
 Content-Type:application/json
 
 {
@@ -35,18 +43,42 @@ Content-Type:application/json
 
 
 // Logout
-GET http://localhost:3000/user/logout?token={{token}}
+GET {{url}}/user/logout?token={{token}}
 ###
 
 
 // Ver datos del usuario
-GET http://localhost:3000/user/{{userId}}?token={{token}}
+GET {{url}}/user/{{userId}}?token={{token}}
 ###
 
 
 // Delete user
-DELETE http://localhost:3000/user/delete/{{userId}}?token={{token}}
+DELETE {{url}}/user/delete/{{userId}}?token={{token}}
 ###
 
 
 
+// -----------------
+// R A T I N G
+// -----------------
+
+
+GET {{url}}/rating/all
+###
+
+
+POST {{url}}/rating/add
+Content-Type:application/json
+
+{
+	"productId": "5de6863f19d26244901c5ec0",
+	"raterId": "5de6863f19d26244901c7ec2",
+	"ratedId": "5de6863f19d26244901c7ec2",
+	"value": 1,
+	"comment": "test 01"
+}
+###
+
+
+POST {{url}}/rating/rated?id=5de6863f19d26244901c7ec2
+###
