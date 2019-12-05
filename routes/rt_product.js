@@ -1,6 +1,6 @@
 
 const router = require ("express").Router();
-const { addProduct, deleteProduct, editProduct }  = require("../DB/db_user");
+const { addProduct, deleteProduct, editProduct }  = require("../DB/db_product");
 const hasValidToken = require("../MW/hasValidToken");
 // const hasAdminLevel = require("../MW/hasAdminLevel");
 

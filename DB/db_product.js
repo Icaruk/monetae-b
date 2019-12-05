@@ -41,7 +41,7 @@ const addProduct = async (req, res) => {
 	
 };
 
-const editProduct = async () => {
+const editProduct = async (req, res) => {
 	
 	let productId = req.body.productId;
 	
@@ -53,25 +53,27 @@ const editProduct = async () => {
 	
 	for (let _x of arr) {
 		if (req.body[_x]) {
-			objLimpio[_x] = _x;
+			objLimpio[_x] = req.body[_x];
 		};
 	};
 	
+	objLimpio.productId = ObjectId(objLimpio.productId);
 	
-	
+
 	// Busco al usuario y lo updateo
 	ProductModel.findByIdAndUpdate(
 		productId,
-		obj,
+		objLimpio,
 		{
 			new: true,
 			useFindAndModify: false
 		}
-	).then ( (cadaver) => {
+	).then ( (mod) => {
 		
-		if (cadaver) {
+		if (mod) {
 			res.send({
-				message: `Product: ${cadaver.productId} Title: ${cadaver.title} has been updated.`
+
+				message: `Product: ${mod._id} Title: ${mod.title} has been updated.`
 			});
 		} else {
 			res.status(404);

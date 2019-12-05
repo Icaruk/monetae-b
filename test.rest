@@ -12,8 +12,8 @@ POST {{url}}/user/register
 Content-Type:application/json
 
 {
-	"username":  "Icaruk",
-	"email": "asd@asd.com",
+	"username":  "Nabucodonosor",
+	"email": "nabu@aol.com",
 	"password":  "1234",
 	"secretQuestion": "como se llamaba tu perro?",
 	"secretAnswer": "toby",
@@ -28,8 +28,7 @@ Content-Type:application/json
 			"owner": "Adrian Apellido Apellido",
 			"expireDate": [6, 22]
 		}
-		
-	}
+	}	
 }
 ###
 
@@ -40,7 +39,7 @@ POST {{url}}/user/login
 Content-Type:application/json
 
 {
-	"username":  "Icaruk",
+	"username":  "Nabucodonosor",
 	"password":  "1234"
 }
 ###
@@ -97,36 +96,36 @@ POST {{url}}/rating/rated?id=5de6863f19d26244901c7ec2
 // -----------------
 
 // Add
-POST {{url}}/product/add
+POST {{url}}/product/add?token={{token}}
 Content-Type:application/json
 
 {
-	"ownerId" : "",
-	"category" : "",
+	"ownerId" : "{{userId}}",
+	"category" : "Informatica",
 	"imageUrl": ["asd.jpg","wwe.jpg"],
 	"title":  "1234",
-	"description": "647123456",
-	"price": 0,
-	"stock": "",
-	"activeStock": "",
-	"location" : "",
-	"isActive": ""
+	"description": "Es un super mega articulo fabuloso",
+	"price": 666,
+	"stock": 1000,
+	"activeStock": 2000,
+	"location" : "Valencia",
+	"isActive": true
 }
 ###
 
 // Edit
-POST {{url}}/product/add
+POST {{url}}/product/edit?token={{token}}
 Content-Type:application/json
 
 {
-	"productId":  "",
-	"imageUrl": ["asd.jpg","wwe.jpg"],
-	"title":  "1234",
-	"description": "647123456",
-	"price": "c/ Falsa, 123",
-	"stock": "",
-	"activeStock": "",
-	"isActive": ""
+	"productId":  "5de93163dc4bc910489ce0f2",
+	"imageUrl": ["hahahahahahaasd.jpg","wwe.jpg"],
+	"title":  "66677788888888888",
+	"description": "sigue siendo mega bueno",
+	"price": 444,
+	"stock": 99,
+	"activeStock": 5000,
+	"isActive": false
 }
 ###
 

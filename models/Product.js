@@ -56,5 +56,5 @@ const ProductSchema = mongoose.Schema({
 });
 
 
-const ProductModel = mongoose.model("rating", ProductSchema);
+const ProductModel = mongoose.model("product", ProductSchema);
 module.exports = ProductModel;
