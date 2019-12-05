@@ -1,0 +1,88 @@
+
+@url = http://localhost:3000
+
+###
+
+// -----------------
+// U S E R
+// -----------------
+
+// Register
+POST {{url}}/user/register
+Content-Type:application/json
+
+{
+	"username":  "Icaruk",
+	"email": "asd@asd.com",
+	"password":  "1234",
+	"phone": "647123456",
+	"address": "c/ Falsa, 123",
+	"billing": {
+		"cardNumber": 123456789,
+		"cardOwner": "Adrian Apellido Apellido",
+		"cardExpireDate": [6, 22]
+	}
+}
+###
+
+
+// Login
+# @name resLogin
+POST {{url}}/user/login
+Content-Type:application/json
+
+{
+	"username":  "Icaruk",
+	"password":  "1234"
+}
+###
+
+
+@userId = {{resLogin.response.body.userId}}
+@token = {{resLogin.response.body.token}}
+
+
+// Logout
+GET {{url}}/user/logout?token={{token}}
+###
+
+
+// Ver datos del usuario
+GET {{url}}/user/{{userId}}?token={{token}}
+###
+
+
+// Delete user
+DELETE {{url}}/user/delete/{{userId}}?token={{token}}
+###
+
+
+
+// -----------------
+// R A T I N G
+// -----------------
+
+
+GET {{url}}/rating/all
+###
+
+
+GET {{url}}/rating/feedback?id=5de92b6b42933a3b3403ce96
+###
+
+
+POST {{url}}/rating/add
+Content-Type:application/json
+
+{
+	"productId": "5de6863f19d26244901c5ec0",
+	"raterId": "5de6863f19d26244901c7ec2",
+	"ratedId": "5de6863f19d26244901c7ec2",
+	"value": 1,
+	"comment": "test 01"
+}
+###
+
+
+POST {{url}}/rating/rated?id=5de6863f19d26244901c7ec2
+###

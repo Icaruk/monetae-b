@@ -87,6 +87,56 @@ const getRatingsByRated = (req, res) => {
 };
 
 
+const getFeedback = (req, res) => {
+	
+	let userId = req.query.id;
+	
+	
+	RatingModel.aggregate([
+		{
+			$match: { ratedId: ObjectId(userId) }
+		},
+		{
+			$group: {
+				_id: '',
+				value: { $sum: "$value" },
+				totalRatings: { $sum: 1 }
+			}
+		},
+		{
+			$project: {
+				_id: 0,
+				value: "$value",
+				totalRatings: 1
+			}
+		}
+	])
+	.then(feedback => {
+		
+		console.log( feedback );
+		
+		// Si no hay ratings, devuelvo ceros
+		if (feedback.length === 0) {
+			res.send({
+				value: 0,
+				totalRatings: 0
+			});
+			
+			return;
+		};
+		
+		
+		// Todo normal
+		res.send(feedback);
+		
+	})
+	.catch(err => {
+		console.log("ERR: ", err);
+	});	
+	
+};
+
+
 
 
 
@@ -95,6 +145,7 @@ module.exports = {
 	getAllRatings,
 	addRating,
 	getRatingsByRated,
+	getFeedback,
 	
 };
 
