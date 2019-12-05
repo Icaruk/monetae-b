@@ -15,12 +15,20 @@ Content-Type:application/json
 	"username":  "Icaruk",
 	"email": "asd@asd.com",
 	"password":  "1234",
+	"secretQuestion": "como se llamaba tu perro?",
+	"secretAnswer": "toby",
 	"phone": "647123456",
-	"address": "c/ Falsa, 123",
 	"billing": {
-		"cardNumber": 123456789,
-		"cardOwner": "Adrian Apellido Apellido",
-		"cardExpireDate": [6, 22]
+		"address": "c/ Falsa, 123",
+		"country": "Finland",
+		"city": "Helsinki",
+		"paypal": "vamosasermuuuuyricos@hotmail.com",
+		"card": {
+			"number": 123456789,
+			"owner": "Adrian Apellido Apellido",
+			"expireDate": [6, 22]
+		}
+		
 	}
 }
 ###
@@ -81,4 +89,47 @@ Content-Type:application/json
 
 
 POST {{url}}/rating/rated?id=5de6863f19d26244901c7ec2
+###
+
+
+// -----------------
+// P R O D U C T
+// -----------------
+
+// Add
+POST {{url}}/product/add
+Content-Type:application/json
+
+{
+	"ownerId" : "",
+	"category" : "",
+	"imageUrl": ["asd.jpg","wwe.jpg"],
+	"title":  "1234",
+	"description": "647123456",
+	"price": 0,
+	"stock": "",
+	"activeStock": "",
+	"location" : "",
+	"isActive": ""
+}
+###
+
+// Edit
+POST {{url}}/product/add
+Content-Type:application/json
+
+{
+	"productId":  "",
+	"imageUrl": ["asd.jpg","wwe.jpg"],
+	"title":  "1234",
+	"description": "647123456",
+	"price": "c/ Falsa, 123",
+	"stock": "",
+	"activeStock": "",
+	"isActive": ""
+}
+###
+
+// Delete user
+DELETE {{url}}/product/delete/productId?token={{token}}
 ###

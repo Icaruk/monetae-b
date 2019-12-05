@@ -1,12 +1,12 @@
 
 const router = require ("express").Router();
-const { addProduct, deleteProduct }  = require("../DB/db_user");
+const { addProduct, deleteProduct, editProduct }  = require("../DB/db_user");
 const hasValidToken = require("../MW/hasValidToken");
 // const hasAdminLevel = require("../MW/hasAdminLevel");
 
 
-router.post("/user/register", hasValidToken, addProduct);
-// router.post("/user/login", loginUser);
+router.post("/product/add", hasValidToken, addProduct);
+router.post("/product/edit", hasValidToken, editProduct);
 // router.get("/user/logout", hasValidToken, logoutUser);
 
 // router.get("/user/all", hasValidToken, getAllUsers);

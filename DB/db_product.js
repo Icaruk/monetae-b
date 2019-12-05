@@ -41,6 +41,53 @@ const addProduct = async (req, res) => {
 	
 };
 
+const editProduct = async () => {
+	
+	let productId = req.body.productId;
+	
+
+	// Esta movida se haría en el front
+	// Aquí recibiríamos objLimpio 
+	let objLimpio = {};
+	let arr = ["imageUrl", "title", "description", "price", "stock", "activeStock", "isActive"];
+	
+	for (let _x of arr) {
+		if (req.body[_x]) {
+			objLimpio[_x] = _x;
+		};
+	};
+	
+	
+	
+	// Busco al usuario y lo updateo
+	ProductModel.findByIdAndUpdate(
+		productId,
+		obj,
+		{
+			new: true,
+			useFindAndModify: false
+		}
+	).then ( (cadaver) => {
+		
+		if (cadaver) {
+			res.send({
+				message: `Product: ${cadaver.productId} Title: ${cadaver.title} has been updated.`
+			});
+		} else {
+			res.status(404);
+			res.send({
+				errorCode: "product_update_1",
+				error: `Product with id ${productId} not found.`
+			})
+		};
+		
+	}).catch( (err) => {
+		console.log( err );
+	});
+	
+
+};
+
 const deleteProduct = async () => {
 
 	let productId = req.params.productId;
@@ -70,8 +117,10 @@ const deleteProduct = async () => {
 
 };
 
+
 module.exports = {
 	addProduct,
-	deleteProduct
+	deleteProduct,
+	editProduct
 	
 };
