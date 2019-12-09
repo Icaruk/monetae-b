@@ -131,21 +131,21 @@ Content-Type:application/json
 ###
 
 // Delete product
-DELETE {{url}}/product/delete/productId?token={{token}}
+DELETE {{url}}/product/delete?id=5de93163dc4bc910489ce0f2&token={{token}}
 ###
 
 // Show all products
-GET {{url}}/product/all
+GET {{url}}/product/all?token={{token}}
 ###
 
 // Show products of a certain Owner
-GET {{url}}/product?ownerId={userId}&token={token}
+GET {{url}}/product/getByOwner?ownerId=5de92b6b42933a3b3403ce96&token={{token}}
 ###
 
 // Show products by Id
-GET {{url}}/product?productId={productId}&token={token}
+GET {{url}}/product/get?id=5de93163dc4bc910489ce0f2&token={{token}}
 ###
 
 // Show products by Title
-GET {{url}}/product?title={silla}&token={token}
+GET {{url}}/product/s?title=silla&token={{token}}
 ###
