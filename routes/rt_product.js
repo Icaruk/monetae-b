@@ -7,11 +7,12 @@ const hasValidToken = require("../MW/hasValidToken");
 
 router.post("/product/add", hasValidToken, addProduct);
 router.post("/product/edit", hasValidToken, editProduct);
-// router.get("/user/logout", hasValidToken, logoutUser);
-
-// router.get("/user/all", hasValidToken, getAllUsers);
-// router.get("/user/:id", hasValidToken, getUser);
-
 router.delete("/product/delete/:id", hasValidToken, deleteProduct);
+
+router.get("/product/all", hasValidToken, getAllProduct);
+router.get("/product/:ownerId", hasValidToken, getOwnerIdProduct);
+router.get("/product/:productId", hasValidToken, getIdProduct);
+router.get("/product/:productTitle", hasValidToken, getTitleProduct);
+
 
 module.exports = router;

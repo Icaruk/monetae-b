@@ -90,7 +90,7 @@ const editProduct = async (req, res) => {
 
 };
 
-const deleteProduct = async () => {
+const deleteProduct = async (req, res) => {
 
 	let productId = req.params.productId;
 	
@@ -119,10 +119,85 @@ const deleteProduct = async () => {
 
 };
 
+const getAllProduct = async (req, res) => {
+
+	ProductModel.find(
+		{}
+	).then( (products) => {
+		res.send(products);
+	}).catch( (err) => {
+		console.log( err );
+	});
+	
+};
+
+const getOwnerIdProduct = async (req, res) => {
+
+	let ownerId = ObjectId(req.query.ownerId);
+
+	ProductModel.find(
+		{ownerId: ownerId}
+	).then( (products) => {
+
+		if(products){
+			res.send(products);
+		}else{
+			res.send({message: `Products not found.`});
+		}
+		
+	}).catch( (err) => {
+		console.log( err );
+	});
+	
+};
+
+const getIdProduct = async (req, res) => {
+
+	let productId = req.query.productId;
+
+	ProductModel.find(
+		{_id: productId}
+	).then( (products) => {
+
+		if(products){
+			res.send(products);
+		}else{
+			res.send({message: `Products not found.`});
+		}
+		
+	}).catch( (err) => {
+		console.log( err );
+	});
+	
+};
+
+const getTitleProduct = async (req, res) => {
+
+	let productTitle = req.params.productTitle;
+
+	ProductModel.find(
+		{title: productTitle}
+	).then( (products) => {
+
+		if(products){
+			res.send(products);
+		}else{
+			res.send({message: `Products not found.`});
+		}
+		
+	}).catch( (err) => {
+		console.log( err );
+	});
+	
+};
+
 
 module.exports = {
 	addProduct,
 	deleteProduct,
-	editProduct
-	
+	editProduct,
+	getAllProduct,
+	getOwnerIdProduct,
+	getIdProduct,
+	getTitleProduct
 };

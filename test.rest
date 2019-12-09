@@ -49,6 +49,7 @@ Content-Type:application/json
 @token = {{resLogin.response.body.token}}
 
 
+
 // Logout
 GET {{url}}/user/logout?token={{token}}
 ###
@@ -129,6 +130,22 @@ Content-Type:application/json
 }
 ###
 
-// Delete user
+// Delete product
 DELETE {{url}}/product/delete/productId?token={{token}}
+###
+
+// Show all products
+GET {{url}}/product/all
+###
+
+// Show products of a certain Owner
+GET {{url}}/product?ownerId={userId}&token={token}
+###
+
+// Show products by Id
+GET {{url}}/product?productId={productId}&token={token}
+###
+
+// Show products by Title
+GET {{url}}/product?title={silla}&token={token}
 ###
