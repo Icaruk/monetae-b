@@ -92,7 +92,7 @@ const editProduct = async (req, res) => {
 
 const deleteProduct = async (req, res) => {
 
-	let productId = req.params.productId;
+	let productId = req.query.id;
 	
 	
 	// Busco al usuario y lo borro
@@ -131,7 +131,7 @@ const getAllProduct = async (req, res) => {
 	
 };
 
-const getOwnerIdProduct = async (req, res) => {
+const getProductByOwner = async (req, res) => {
 
 	let ownerId = ObjectId(req.query.ownerId);
 
@@ -153,7 +153,7 @@ const getOwnerIdProduct = async (req, res) => {
 
 const getIdProduct = async (req, res) => {
 
-	let productId = req.query.productId;
+	let productId = req.query.id;
 
 	ProductModel.find(
 		{_id: productId}
@@ -171,9 +171,12 @@ const getIdProduct = async (req, res) => {
 	
 };
 
-const getTitleProduct = async (req, res) => {
+const getProductByTitle = async (req, res) => {
 
-	let productTitle = req.params.productTitle;
+	let productTitle = req.query.title;
+
+
+	console.log(productTitle);
 
 	ProductModel.find(
 		{title: productTitle}
@@ -197,7 +200,7 @@ module.exports = {
 	deleteProduct,
 	editProduct,
 	getAllProduct,
-	getOwnerIdProduct,
+	getProductByOwner,
 	getIdProduct,
-	getTitleProduct
+	getProductByTitle
 };
