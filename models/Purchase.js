@@ -44,5 +44,5 @@ const PurchaseSchema = mongoose.Schema({
 });
 
 
-const PurchaseModel = mongoose.model("rating", PurchaseSchema);
+const PurchaseModel = mongoose.model("purchase", PurchaseSchema);
 module.exports = PurchaseModel;

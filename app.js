@@ -25,7 +25,7 @@ app.use(express.json()); // parsea objetos STRING a JSON
 app.use(require("./routes/rt_user"));
 app.use(require("./routes/rt_rating"));
 app.use(require("./routes/rt_product"));
-// app.use(require("./routes/rt_purchase"));
+app.use(require("./routes/rt_purchase"));
 
 
 
