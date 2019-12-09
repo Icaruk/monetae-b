@@ -27,6 +27,7 @@ const addRating = (req, res) => {
 	let raterObjectId = ObjectId(bodyData.ratedId);
 	
 	
+	// Creo un nuevo rating
 	const rating = new RatingModel({
 		productId: productObjectId,
 		raterId: ratedObjectId,
@@ -41,8 +42,6 @@ const addRating = (req, res) => {
 	.catch( (err) => {
 		console.log( err );
 	});
-	
-	
 	
 };
 

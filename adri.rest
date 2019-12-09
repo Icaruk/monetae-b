@@ -67,7 +67,7 @@ GET {{url}}/rating/all
 ###
 
 
-GET {{url}}/rating/feedback?id=5de92b6b42933a3b3403ce96
+GET {{url}}/rating/feedback?id=5de7b5b0a645b84394046e69
 ###
 
 
@@ -76,10 +76,10 @@ Content-Type:application/json
 
 {
 	"productId": "5de6863f19d26244901c5ec0",
-	"raterId": "5de6863f19d26244901c7ec2",
-	"ratedId": "5de6863f19d26244901c7ec2",
+	"raterId": "5de7b5b0a645b84394046e69",
+	"ratedId": "5de68712435a4a01b0eba786",
 	"value": 1,
-	"comment": "test 01"
+	"comment": "Felipe --> Juanito comentario genérico 03"
 }
 ###
 
