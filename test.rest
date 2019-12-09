@@ -12,8 +12,8 @@ POST {{url}}/user/register
 Content-Type:application/json
 
 {
-	"username":  "Nabucodonosor",
-	"email": "nabu@aol.com",
+	"username":  "Jacinto",
+	"email": "jac@jac",
 	"password":  "1234",
 	"secretQuestion": "como se llamaba tu perro?",
 	"secretAnswer": "toby",
@@ -22,10 +22,10 @@ Content-Type:application/json
 		"address": "c/ Falsa, 123",
 		"country": "Finland",
 		"city": "Helsinki",
-		"paypal": "vamosasermuuuuyricos@hotmail.com",
+		"paypal": "jac@jac",
 		"card": {
-			"number": 123456789,
-			"owner": "Adrian Apellido Apellido",
+			"number": 33336666,
+			"owner": "Jose Jacinto Javier",
 			"expireDate": [6, 22]
 		}
 	}	
@@ -39,7 +39,7 @@ POST {{url}}/user/login
 Content-Type:application/json
 
 {
-	"username":  "Nabucodonosor",
+	"username":  "Jacinto",
 	"password":  "1234"
 }
 ###
@@ -64,6 +64,16 @@ GET {{url}}/user/{{userId}}?token={{token}}
 DELETE {{url}}/user/delete/{{userId}}?token={{token}}
 ###
 
+// Forgot Password
+POST {{url}}/user/forgotPassword?token={{token}}
+Content-Type:application/json
+
+{
+	"username": "Jacinto",
+	"secretAnswer": "toby",
+	"password":  "2222"
+}
+###
 
 
 // -----------------

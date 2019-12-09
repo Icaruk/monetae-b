@@ -1,14 +1,20 @@
 {
-    "idleHeartbeats": 362,
-    "navigatingHeartbeats": 287,
-    "totalCodingHeartbeats": 720,
+    "idleHeartbeats": 1309,
+    "navigatingHeartbeats": 713,
+    "totalCodingHeartbeats": 3058,
     "languageHeartbeats": {
-        "http": 483,
-        "javascript": 237
+        "http": 805,
+        "javascript": 2200,
+        "plaintext": 10,
+        "ignore": 43
     },
     "fileHeartbeats": {
-        "test.rest": 483,
-        "routes/rt_product.js": 141,
-        "DB/db_product.js": 96
+        "test.rest": 805,
+        "routes/rt_product.js": 206,
+        "DB/db_product.js": 509,
+        "d:\\GeeksHubs\\bootcamp\\FS\\Entregables\\monetae\\monetae-b\\routes\\rt_product.js.git": 10,
+        ".gitignore": 43,
+        "routes/rt_user.js": 67,
+        "DB/db_user.js": 1418
     }
 }

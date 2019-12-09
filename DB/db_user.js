@@ -1,4 +1,3 @@
-
 const UserModel = require("../models/User");
 const TokenModel = require("../models/Token");
 const bcrypt = require("bcryptjs");
@@ -15,6 +14,7 @@ const registerUser = async (req, res) => {
 			email: bodyData.email,
 			password: bodyData.password,
 			secretQuestion: bodyData.secretQuestion,
+			secretAnswer: bodyData.secretAnswer,
 			phone: bodyData.phone,
 			billing: bodyData.billing
 			
@@ -241,6 +241,49 @@ const deleteUser = (req, res) => {
 	
 };
 
+const userPassReset = async (req, res) => {
+	
+	let username = req.body.username;
+	let answer = req.body.secretAnswer;
+	let newPassword = req.body.password;
+	
+	
+	// Busco el email de usuario para devolver su password
+
+	try {
+		const userFound = await UserModel.findOne({username: username});
+		if(userFound){
+			
+			if(answer === userFound.secretAnswer){
+				
+				UserModel.findByIdAndUpdate(
+					userFound._id, 
+					{password: newPassword},
+					{new:true, useFindAndModify:false}
+				)
+
+				res.send({
+					message: 'Your password has been succesfully reseted.'
+				})
+				
+			}else{
+				res.status(401);
+				res.send({
+					errorCode: "user_password_2",
+					error: `Incorret answer.`
+				})
+			}
+		}else{
+			res.status(404);
+			res.send({
+				errorCode: "user_password_1",
+				error: `Username ${userFound.username} not found.`
+			})
+		}
+	} catch (err){
+		console.log(err);
+	}
+};
 
 
 module.exports = {
@@ -249,5 +292,6 @@ module.exports = {
 	getUser,
 	deleteUser,
 	loginUser,
-	logoutUser
+	logoutUser,
+	userPassReset
 };

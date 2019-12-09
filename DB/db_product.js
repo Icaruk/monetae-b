@@ -131,76 +131,76 @@ const getAllProduct = async (req, res) => {
 	
 };
 
-const getProductByOwner = async (req, res) => {
 
-	let ownerId = ObjectId(req.query.ownerId);
-
-	ProductModel.find(
-		{ownerId: ownerId}
-	).then( (products) => {
-
-		if(products){
-			res.send(products);
-		}else{
-			res.send({message: `Products not found.`});
-		}
-		
-	}).catch( (err) => {
-		console.log( err );
-	});
-	
-};
-
-const getIdProduct = async (req, res) => {
+const getProductId = async (req, res) => {
 
 	let productId = req.query.id;
-
-	ProductModel.find(
-		{_id: productId}
-	).then( (products) => {
-
-		if(products){
-			res.send(products);
-		}else{
-			res.send({message: `Products not found.`});
-		}
-		
-	}).catch( (err) => {
-		console.log( err );
-	});
-	
-};
-
-const getProductByTitle = async (req, res) => {
-
 	let productTitle = req.query.title;
+	let ownerId = ObjectId(req.query.ownerId);
 
+	switch (true){
 
-	console.log(productTitle);
+		case productId:
 
-	ProductModel.find(
-		{title: productTitle}
-	).then( (products) => {
+			ProductModel.find(
+				{_id: productId}
+			).then( (products) => {
 
-		if(products){
-			res.send(products);
-		}else{
-			res.send({message: `Products not found.`});
-		}
+				if(products){
+					res.send(products);
+				}else{
+					res.send({message: `Products not found.`});
+				}
+
+			}).catch( (err) => {
+				console.log( err );
+			});
+
+		break;
+
+		case productTitle:
+
+			ProductModel.find(
+				{title: productTitle}
+			).then( (products) => {
 		
-	}).catch( (err) => {
-		console.log( err );
-	});
+				if(products){
+					res.send(products);
+				}else{
+					res.send({message: `Products not found.`});
+				}
+				
+			}).catch( (err) => {
+				console.log( err );
+			});
+
+		break;
+
+		case ownerId:
+
+			ProductModel.find(
+				{ownerId: ownerId}
+			).then( (products) => {
+		
+				if(products){
+					res.send(products);
+				}else{
+					res.send({message: `Products not found.`});
+				}
+				
+			}).catch( (err) => {
+				console.log( err );
+			});
+		break;
+
+	}
 	
 };
-
 
 module.exports = {
 	addProduct,
 	deleteProduct,
 	editProduct,
 	getAllProduct,
-	getProductByOwner,
-	getIdProduct,
-	getProductByTitle
+	getProductId
 };
