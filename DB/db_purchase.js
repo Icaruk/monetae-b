@@ -52,11 +52,14 @@ const getPurchase = async (req, res) => {
 	
 	try {
 		
+		let purchase;
+		
+		
 		switch (true) {
 			
 			case id:
 				
-				const purchase = await PurchaseModel.findById(
+				purchase = await PurchaseModel.findById(
 					id
 				);
 				
@@ -66,7 +69,7 @@ const getPurchase = async (req, res) => {
 			
 			case buyerId:
 				
-				const purchase = await PurchaseModel.find({
+				purchase = await PurchaseModel.find({
 					buyerId: buyerId
 				});
 				
@@ -76,7 +79,7 @@ const getPurchase = async (req, res) => {
 			
 			case sellerId:
 				
-				const purchase = await PurchaseModel.find({
+				purchase = await PurchaseModel.find({
 					sellerId: sellerId
 				});
 				
@@ -86,7 +89,7 @@ const getPurchase = async (req, res) => {
 			
 			case destinationCountry:
 				
-				const purchase = await PurchaseModel.find({
+				purchase = await PurchaseModel.find({
 					destinationCountry: destinationCountry
 				});
 				
@@ -96,7 +99,7 @@ const getPurchase = async (req, res) => {
 			
 			case destinationCity:
 				
-				const purchase = await PurchaseModel.find({
+				purchase = await PurchaseModel.find({
 					destinationCity: destinationCity
 				});
 				
