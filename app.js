@@ -14,7 +14,7 @@ require("./DB/db_init")();
 app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    res.header("Access-Control-Allow-Methods", "GET, POST,PUT,DELETE");
+    res.header("Access-Control-Allow-Methods", "GET, POST,PUT,DELETE,OPTIONS");
     next();
 });
 app.use(express.json()); // parsea objetos STRING a JSON 
@@ -22,6 +22,7 @@ app.use(express.json()); // parsea objetos STRING a JSON
 
 
 // Routes
+app.options('/*',(req,res)=>res.send());
 app.use(require("./routes/rt_user"));
 app.use(require("./routes/rt_rating"));
 app.use(require("./routes/rt_product"));

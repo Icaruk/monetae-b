@@ -1,10 +1,10 @@
 {
-    "idleHeartbeats": 1309,
-    "navigatingHeartbeats": 713,
-    "totalCodingHeartbeats": 3058,
+    "idleHeartbeats": 1334,
+    "navigatingHeartbeats": 732,
+    "totalCodingHeartbeats": 3069,
     "languageHeartbeats": {
         "http": 805,
-        "javascript": 2200,
+        "javascript": 2211,
         "plaintext": 10,
         "ignore": 43
     },
@@ -15,6 +15,7 @@
         "d:\\GeeksHubs\\bootcamp\\FS\\Entregables\\monetae\\monetae-b\\routes\\rt_product.js.git": 10,
         ".gitignore": 43,
         "routes/rt_user.js": 67,
-        "DB/db_user.js": 1418
+        "DB/db_user.js": 1428,
+        "routes/rt_purchase.js": 1
     }
 }
