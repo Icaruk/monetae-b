@@ -16,6 +16,7 @@ const registerUser = async (req, res) => {
 			secretQuestion: bodyData.secretQuestion,
 			secretAnswer: bodyData.secretAnswer,
 			phone: bodyData.phone,
+			userType: bodyData.userType,
 			billing: bodyData.billing
 			
 		}).save();
