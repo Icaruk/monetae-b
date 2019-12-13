@@ -18,6 +18,7 @@ Content-Type:application/json
 	"secretQuestion": "como se llamaba tu perro?",
 	"secretAnswer": "toby",
 	"phone": "647123456",
+	"userType": 0,
 	"billing": {
 		"address": "c/ Falsa, 123",
 		"country": "Finland",

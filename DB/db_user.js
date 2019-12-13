@@ -16,6 +16,7 @@ const registerUser = async (req, res) => {
 			secretQuestion: bodyData.secretQuestion,
 			secretAnswer: bodyData.secretAnswer,
 			phone: bodyData.phone,
+			userType: bodyData.userType,
 			billing: bodyData.billing
 			
 		}).save();
@@ -105,7 +106,8 @@ const loginUser = async (req, res) => {
 					error: "User is already logged in.",
 					username: userFound.username,
 					userId: tokenFound.userId,
-					token: tokenFound._id
+					token: tokenFound._id,
+					userType: tokenFound.userType
 				});
 				
 			// No lo estaba
@@ -114,7 +116,8 @@ const loginUser = async (req, res) => {
 				// Creo nuevo token
 				let newToken = await new TokenModel ({
 					userId: userFound._id,
-					adminLevel: userFound.adminLevel
+					adminLevel: userFound.adminLevel,
+					userType: userFound.userType
 				}).save();
 				
 				
@@ -122,7 +125,8 @@ const loginUser = async (req, res) => {
 				res.send({
 					username: userFound.username,
 					userId: userFound._id,
-					token: newToken._id
+					token: newToken._id,
+					userType: userFound.userType
 				});
 				
 			};
