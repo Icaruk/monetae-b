@@ -241,49 +241,93 @@ const deleteUser = (req, res) => {
 	
 };
 
-const userPassReset = async (req, res) => {
-	
-	let username = req.body.username;
-	let answer = req.body.secretAnswer;
-	let newPassword = req.body.password;
-	
-	
-	// Busco el email de usuario para devolver su password
 
+
+const userPassReset1 = async (req, res) => {
+	
+	let usernameOrEmail = req.body.username; // user o mail
+	
+	
 	try {
-		const userFound = await UserModel.findOne({username: username});
-		if(userFound){
+		
+		// Pruebo a buscar por username
+		let userFound = await UserModel.findOne({
+			$or : [
+				{ username:  usernameOrEmail}, { email: usernameOrEmail }
+			]
+		}).select("secretQuestion secretAnswer");
+		
+		
+		if (!userFound) {
 			
-			if(answer === userFound.secretAnswer){
-				
-				UserModel.findByIdAndUpdate(
-					userFound._id, 
-					{password: newPassword},
-					{new:true, useFindAndModify:false}
-				)
-
-				res.send({
-					message: 'Your password has been succesfully reseted.'
-				})
-				
-			}else{
-				res.status(401);
-				res.send({
-					errorCode: "user_password_2",
-					error: `Incorret answer.`
-				})
-			}
-		}else{
 			res.status(404);
 			res.send({
-				errorCode: "user_password_1",
-				error: `Username ${userFound.username} not found.`
+				errorCode: "user_recovery_1",
+				error: "User or email not found."
 			})
-		}
+			
+		} else {
+			
+			res.send({
+				secretQuestion: userFound.secretQuestion,
+				secretAnswer: userFound.secretAnswer
+			})
+			
+		};
+		
+		
 	} catch (err){
+		
 		console.log(err);
+		
 	}
 };
+
+const userPassReset2 = async (req, res) => {
+	
+	let username = req.body.username;
+	let userAnswer = req.body.userAnswer;
+	let newPassword = req.body.newPassword;
+	
+	
+	try {
+		
+		const foundUser = await UserModel.findOne({
+			username: username
+		});
+		
+		
+		if (! foundUser) {
+			console.log( "No found user" );
+			return;
+		};
+			
+			
+		if (foundUser.secretAnswer !== userAnswer) {
+			console.log( "Incorrectg secret anws" );
+			return;
+		};
+		
+		
+		
+		// Llamo para actualizar pass
+		const modifiedUser = await UserModel.updateOne({
+			username: username
+		}, {
+			password: newPassword
+		});
+		
+		console.log( "modifiedUser: ", modifiedUser );
+		
+		
+		
+	} catch (err){
+		
+		console.log(err);
+		
+	}
+};
+
 
 
 module.exports = {
@@ -293,5 +337,6 @@ module.exports = {
 	deleteUser,
 	loginUser,
 	logoutUser,
-	userPassReset
+	userPassReset1,
+	userPassReset2
 };

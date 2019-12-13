@@ -13,15 +13,22 @@ Content-Type:application/json
 
 {
 	"username":  "Icaruk",
-	"email": "asd@asd.com",
+	"email": "ica@ruk.com",
 	"password":  "1234",
+	"secretQuestion": "Perro actual",
+	"secretAnswer": "Nala",
 	"phone": "647123456",
-	"address": "c/ Falsa, 123",
 	"billing": {
-		"cardNumber": 123456789,
-		"cardOwner": "Adrian Apellido Apellido",
-		"cardExpireDate": [6, 22]
-	}
+		"address": "c/ Falsa, 123",
+		"country": "Spain",
+		"city": "Valencia",
+		"paypal": "ica@ruk.com",
+		"card": {
+			"number": 123456789,
+			"owner": "Adrian Adrian Adrian",
+			"expireDate": [6, 22]
+		}
+	}	
 }
 ###
 
