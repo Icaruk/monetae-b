@@ -162,5 +162,5 @@ GET {{url}}/product/get?id=5de93163dc4bc910489ce0f2&token={{token}}
 ###
 
 // Show products by Title
-GET {{url}}/product/s?title=silla&token={{token}}
+GET {{url}}/product/get?title=u67
 ###

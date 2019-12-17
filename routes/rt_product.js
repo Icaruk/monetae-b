@@ -1,6 +1,6 @@
 
 const router = require ("express").Router();
-const { addProduct, deleteProduct, editProduct, getAllProduct, getProductId, getBestSellingProduct }  = require("../DB/db_product");
+const { addProduct, deleteProduct, editProduct, getAllProduct, getProduct, getBestSellingProduct }  = require("../DB/db_product");
 const hasValidToken = require("../MW/hasValidToken");
 // const hasAdminLevel = require("../MW/hasAdminLevel");
 
@@ -11,7 +11,7 @@ router.delete("/product/delete", hasValidToken, deleteProduct);
 
 router.get("/product/all", getAllProduct);
 router.get("/product/best", getBestSellingProduct);
-router.get("/product/get", getProductId);
+router.get("/product/get", getProduct);
 
 
 module.exports = router;

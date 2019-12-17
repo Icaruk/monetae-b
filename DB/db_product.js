@@ -152,68 +152,67 @@ const getBestSellingProduct = async (req, res) => {
 	
 };
 
-const getProductId = async (req, res) => {
+const getProduct = async (req, res) => {
 
 	let productId = req.query.id;
 	let productTitle = req.query.title;
 	let ownerId = ObjectId(req.query.ownerId);
-
-	switch (true){
-
-		case productId:
-
-			ProductModel.find(
-				{_id: productId}
-			).then( (products) => {
-
-				if(products){
-					res.send(products);
-				}else{
-					res.send({message: `Products not found.`});
-				}
-
-			}).catch( (err) => {
-				console.log( err );
-			});
-
-		break;
-
-		case productTitle:
-
-			ProductModel.find(
-				{title: productTitle}
-			).then( (products) => {
+	
+	
+	if (productTitle) {
 		
-				if(products){
-					res.send(products);
-				}else{
-					res.send({message: `Products not found.`});
-				}
-				
-			}).catch( (err) => {
-				console.log( err );
-			});
-
-		break;
-
-		case ownerId:
-
-			ProductModel.find(
-				{ownerId: ownerId}
-			).then( (products) => {
+		ProductModel.find(
+			{ title: {$regex: `.*${productTitle}.*`, $options: "i"} },
+		).then( (products) => {
+			
+			if (products) {
+				res.send(products);
+			} else {
+				res.send({message: `Products not found.`});
+			}
+			
+		}).catch( (err) => {
+			console.log( err );
+		});
 		
-				if(products){
-					res.send(products);
-				}else{
-					res.send({message: `Products not found.`});
-				}
-				
-			}).catch( (err) => {
-				console.log( err );
-			});
-		break;
-
-	}
+		
+		
+	} else if (productId) {
+		
+		ProductModel.find(
+			{_id: productId}
+		).then( (products) => {
+			
+			if (products) {
+				res.send(products);
+			} else {
+				res.send({message: `Products not found.`});
+			}
+			
+		}).catch( (err) => {
+			console.log( err );
+		});
+		
+		
+		
+	} else if (ownerId) {
+		
+		ProductModel.find(
+			{ownerId: ownerId}
+		).then( (products) => {
+			
+			if (products) {
+				res.send(products);
+			} else {
+				res.send({message: `Products not found.`});
+			}
+			
+		}).catch( (err) => {
+			console.log( err );
+		});
+		
+	};
+	
 	
 };
 
@@ -223,5 +222,5 @@ module.exports = {
 	editProduct,
 	getAllProduct,
 	getBestSellingProduct,
-	getProductId
+	getProduct
 };
