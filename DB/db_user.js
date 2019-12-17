@@ -302,13 +302,25 @@ const userPassReset2 = async (req, res) => {
 		
 		
 		if (! foundUser) {
-			console.log( "No found user" );
+			
+			res.status(404);
+			res.send({
+				errorCode: "user_recovery_1",
+				error: "User or email not found."
+			});
+			
 			return;
 		};
-			
-			
+		
+		
 		if (foundUser.secretAnswer !== userAnswer) {
-			console.log( "Incorrectg secret anws" );
+			
+			res.status(404);
+			res.send({
+				errorCode: "user_recovery_2",
+				error: "Wrong secret answer."
+			});
+			
 			return;
 		};
 		
@@ -321,15 +333,32 @@ const userPassReset2 = async (req, res) => {
 			password: newPassword
 		});
 		
-		console.log( "modifiedUser: ", modifiedUser );
 		
+		if (! modifiedUser) {
+			
+			res.status(500);
+			res.send({
+				errorCode: "user_recovery_99",
+				error: `The password has not been set for user ${username}.`
+			});	
+			
+			
+			return;
+			
+		};
+		
+		res.send({
+			message: `The password for ${username} has been reset.`,
+			username: username
+		});
 		
 		
 	} catch (err){
 		
 		console.log(err);
 		
-	}
+	};
+	
 };
 
 
