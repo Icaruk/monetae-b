@@ -146,7 +146,11 @@ DELETE {{url}}/product/delete?id=5de93163dc4bc910489ce0f2&token={{token}}
 ###
 
 // Show all products
-GET {{url}}/product/all?token={{token}}
+GET {{url}}/product/all
+###
+
+// Show best selling products
+GET {{url}}/product/best?limit=10
 ###
 
 // Show products of a certain Owner
