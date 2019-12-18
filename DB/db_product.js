@@ -202,9 +202,45 @@ const getProduct = async (req, res) => {
 	
 	if (productTitle) {
 		
+		// Filtros
+		let minPrice = req.query.minPrice;
+		let maxPrice = req.query.maxPrice;
+		let sort = req.query.sort; // pa, pd, va, vd
+		
+		
+		let objSort = {};
+		
+		
+		if (sort) {
+			
+			switch (sort) {
+				
+				case "pa": 
+					objSort.price = 1;
+				break;
+				case "pd": 
+					objSort.price = -1;
+				break;
+				case "va": 
+					objSort.rating = 1;
+				break;
+				case "vd": 
+					objSort.rating = -1;
+				break;
+				
+			};
+			
+		};
+		
+		
 		ProductModel.find(
-			{ title: {$regex: `.*${productTitle}.*`, $options: "i"} },
-		).then( (products) => {
+			{
+				title: {$regex: `.*${productTitle}.*`, $options: "i"},
+				isActive: true
+			},
+		)
+		.sort( objSort )
+		.then( (products) => {
 			
 			if (products) {
 				res.send(products);
