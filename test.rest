@@ -153,6 +153,14 @@ GET {{url}}/product/all
 GET {{url}}/product/best?limit=10
 ###
 
+// Show best selling products
+GET {{url}}/product/voted?limit=10
+###
+
+// Show best selling products
+GET {{url}}/product/suggested?limit=10
+###
+
 // Show products of a certain Owner
 GET {{url}}/product/getByOwner?ownerId=5de92b6b42933a3b3403ce96&token={{token}}
 ###
