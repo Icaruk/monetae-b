@@ -206,38 +206,48 @@ const getProduct = async (req, res) => {
 		let minPrice = req.query.minPrice;
 		let maxPrice = req.query.maxPrice;
 		let sort = req.query.sort; // pa, pd, va, vd
+		let category = req.query.category;
 		
 		
+		// Construyo obj para .sort si me lo piden
 		let objSort = {};
 		
-		
 		if (sort) {
-			
 			switch (sort) {
 				
 				case "pa": 
 					objSort.price = 1;
 				break;
-				case "pd": 
+				case "pd":
 					objSort.price = -1;
 				break;
-				case "va": 
+				case "va":
 					objSort.rating = 1;
 				break;
-				case "vd": 
+				case "vd":
 					objSort.rating = -1;
 				break;
 				
 			};
-			
 		};
 		
 		
+		// Main query
+		objQuery = {
+			title: {$regex: `.*${productTitle}.*`, $options: "i"},
+			isActive: true
+		};
+		
+		
+		// Si hubiese filtro de categoría, añado a la main query
+		if (category) {
+			objQuery.category = category;
+		};
+		
+		
+		// Llamo a la DB
 		ProductModel.find(
-			{
-				title: {$regex: `.*${productTitle}.*`, $options: "i"},
-				isActive: true
-			},
+			objQuery
 		)
 		.sort( objSort )
 		.then( (products) => {
