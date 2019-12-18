@@ -158,7 +158,7 @@ GET {{url}}/product/voted?limit=10
 ###
 
 // Show related category in detail products
-GET {{url}}/product/voted?limit=10
+GET {{url}}/product/category?cat=aut&excludeId=5de92b6b42933a3b3403ce96&limit=10
 ###
 
 // Show suggested products

@@ -171,7 +171,7 @@ const getBestVotedProduct = async (req, res) => {
 	
 };
 
-const getRelatedCategory = async (req, res) => {
+const getProductCategory = async (req, res) => {
 	let num;
 
 	if (!req.query.limit) {
@@ -180,11 +180,13 @@ const getRelatedCategory = async (req, res) => {
 		num = parseInt(req.query.limit);
 	}
 
-	let category = req.query.category;
-	
+	let category = req.query.cat;
+	let excludeId = req.query.excludeId;
+
 	ProductModel.find(
 		{category: category}
-	).limit(num).sort({ timesSold : -1 })
+	).where('_id').ne(excludeId)
+	.limit(num).sort({ timesSold : -1 })
 	.then( (products) => {
 		res.send(products);
 	}).catch( (err) => {
@@ -300,6 +302,6 @@ module.exports = {
 	getAllProduct,
 	getBestSellingProduct,
 	getBestVotedProduct,
-	getRelatedCategory,
+	getProductCategory,
 	getProduct
 };
