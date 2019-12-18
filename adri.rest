@@ -108,4 +108,8 @@ GET {{url}}/product/get?title=u
 GET {{url}}/product/get?title=u&sort=pd
 ###
 
+// Show products by Title and sort price descendant and category "alimentación"
+GET {{url}}/product/get?title=u&sort=pd&category=ali
+###
+
 
