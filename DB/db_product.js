@@ -183,15 +183,34 @@ const getProductCategory = async (req, res) => {
 	let category = req.query.cat;
 	let excludeId = req.query.excludeId;
 
-	ProductModel.find(
-		{category: category}
-	).where('_id').ne(excludeId)
-	.limit(num).sort({ timesSold : -1 })
-	.then( (products) => {
+	try {
+
+		let queryResult = ProductModel.find(
+			{category: category}
+		);
+	
+		if(excludeId) {
+			queryResult = queryResult.where('_id').ne(excludeId);
+		}
+	
+		let products = await queryResult.limit(num).sort({ timesSold : -1 });
+		
 		res.send(products);
-	}).catch( (err) => {
+	
+	}catch (err) {
 		console.log( err );
-	});
+	}
+	
+
+	// ProductModel.find(
+	// 	{category: category}
+	// ).where('_id').ne(excludeId)
+	// .limit(num).sort({ timesSold : -1 })
+	// .then( (products) => {
+	// 	res.send(products);
+	// }).catch( (err) => {
+	// 	console.log( err );
+	// });
 	
 };
 

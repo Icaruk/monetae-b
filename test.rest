@@ -161,6 +161,10 @@ GET {{url}}/product/voted?limit=10
 GET {{url}}/product/category?cat=aut&excludeId=5de92b6b42933a3b3403ce96&limit=10
 ###
 
+// Show best selling items by category
+GET {{url}}/product/category?cat=aut&limit=10
+###
+
 // Show suggested products
 GET {{url}}/product/suggested?limit=10
 ###
