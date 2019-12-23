@@ -151,6 +151,26 @@ const getBestSellingProduct = async (req, res) => {
 	
 };
 
+const getEconomicProduct = async (req, res) => {
+	let num;
+
+	if (!req.query.limit) {
+	 	num = 10;
+	}else {
+		num = parseInt(req.query.limit);
+	}
+	
+	ProductModel.find(
+		{isActive: true}
+	).limit(num).sort({ price : 1 })
+	.then( (products) => {
+		res.send(products);
+	}).catch( (err) => {
+		console.log( err );
+	});
+	
+};
+
 const getBestVotedProduct = async (req, res) => {
 	let num;
 
@@ -331,6 +351,7 @@ module.exports = {
 	getAllProduct,
 	getBestSellingProduct,
 	getBestVotedProduct,
+	getEconomicProduct,
 	getProductCategory,
 	getProduct
 };
