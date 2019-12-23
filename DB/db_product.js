@@ -274,7 +274,7 @@ const getProduct = async (req, res) => {
 		
 		
 		// Main query
-		objQuery = {
+		objMainQuery = {
 			title: {$regex: `.*${productTitle}.*`, $options: "i"},
 			isActive: true
 		};
@@ -282,13 +282,37 @@ const getProduct = async (req, res) => {
 		
 		// Si hubiese filtro de categoría, añado a la main query
 		if (category) {
-			objQuery.category = category;
+			objMainQuery.category = category;
 		};
+		
+		
+		// Si hubiese filtro de precio, añado a la main query
+		if (minPrice) {
+			
+			if (! objMainQuery.price) {
+				objMainQuery.price = {};
+			};
+			
+			objMainQuery.price.$gte = minPrice;
+		};
+		if (maxPrice) {
+			
+			if (! objMainQuery.price) {
+				objMainQuery.price = {};
+			};
+			
+			objMainQuery.price.$lte = maxPrice;
+		}; // esto quedaría así ---> { $gte: minPrice, $lte: maxPrice }
+		
+		
+		
+		console.log( objMainQuery );
+		
 		
 		
 		// Llamo a la DB
 		ProductModel.find(
-			objQuery
+			objMainQuery
 		)
 		.sort( objSort )
 		.then( (products) => {
