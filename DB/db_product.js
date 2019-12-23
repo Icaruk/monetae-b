@@ -306,10 +306,6 @@ const getProduct = async (req, res) => {
 		
 		
 		
-		console.log( objMainQuery );
-		
-		
-		
 		// Llamo a la DB
 		ProductModel.find(
 			objMainQuery
