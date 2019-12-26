@@ -269,7 +269,14 @@ const getProduct = async (req, res) => {
 					objSort.rating = -1;
 				break;
 				
+				default:
+					objSort.price = -1;
+				break;
+				
 			};
+			
+		} else {
+			objSort.price = -1;
 		};
 		
 		
@@ -307,11 +314,68 @@ const getProduct = async (req, res) => {
 		
 		
 		// Llamo a la DB
-		ProductModel.find(
-			objMainQuery
-		)
-		.sort( objSort )
-		.then( (products) => {
+		// ProductModel.find(
+		// 	objMainQuery
+		// )
+		// .sort( objSort )
+		// .then( (products) => {
+			
+		// 	if (products) {
+		// 		res.send(products);
+		// 	} else {
+		// 		res.send({message: `Products not found.`});
+		// 	}
+			
+		// }).catch( (err) => {
+		// 	console.log( err );
+		// });
+		
+		
+		
+		ProductModel.aggregate([
+			
+			{ $match: objMainQuery },
+			{ $sort: objSort },
+			{ $lookup:
+				{
+					from: "users",
+					localField: "ownerId",
+					foreignField: "_id",
+					as: "__ownerUsername"
+				}
+			},
+			{ $unwind: "$__ownerUsername"},
+			{ $addFields: {
+				   _ownerUsername: "$__ownerUsername.username"
+				}
+			},
+			
+			
+			
+			{ $lookup:
+				{
+					from: "ratings",
+					localField: "ownerId",
+					foreignField: "ratedId",
+					as: "__karma"
+				}
+			},
+			{ $addFields:
+				{
+					_totalKarma: {$sum: "$__karma.value"}
+				}
+			},
+			
+			
+			{ $project:
+				{
+					__ownerUsername: 0,
+					__karma: 0
+				}
+			}
+			
+			
+		]).then( (products) => {
 			
 			if (products) {
 				res.send(products);
