@@ -45,7 +45,7 @@ const editProduct = async (req, res) => {
 	
 	let productId = req.body.productId;
 	
-
+	
 	// Esta movida se haría en el front
 	// Aquí recibiríamos objLimpio 
 	let objLimpio = {};
@@ -59,7 +59,7 @@ const editProduct = async (req, res) => {
 	
 	objLimpio.productId = ObjectId(objLimpio.productId);
 	
-
+	
 	// Busco al usuario y lo updateo
 	ProductModel.findByIdAndUpdate(
 		productId,
@@ -72,7 +72,7 @@ const editProduct = async (req, res) => {
 		
 		if (mod) {
 			res.send({
-
+				
 				message: `Product: ${mod._id} Title: ${mod.title} has been updated.`
 			});
 		} else {
@@ -91,7 +91,7 @@ const editProduct = async (req, res) => {
 };
 
 const deleteProduct = async (req, res) => {
-
+	
 	let productId = req.query.id;
 	
 	
@@ -166,8 +166,9 @@ const getBestSellingProduct = async (req, res) => {
 };
 
 const getEconomicProduct = async (req, res) => {
+	
 	let num;
-
+	
 	if (!req.query.limit) {
 	 	num = 10;
 	}else {
@@ -186,8 +187,9 @@ const getEconomicProduct = async (req, res) => {
 };
 
 const getBestVotedProduct = async (req, res) => {
+	
 	let num;
-
+	
 	if (!req.query.limit) {
 	 	num = 10;
 	}else {
@@ -206,19 +208,20 @@ const getBestVotedProduct = async (req, res) => {
 };
 
 const getProductCategory = async (req, res) => {
+	
 	let num;
-
+	
 	if (!req.query.limit) {
 	 	num = 10;
 	}else {
 		num = parseInt(req.query.limit);
 	}
-
+	
 	let category = req.query.cat;
 	let excludeId = req.query.excludeId;
-
+	
 	try {
-
+		
 		let queryResult = ProductModel.find(
 			{category: category}
 		);
@@ -235,7 +238,7 @@ const getProductCategory = async (req, res) => {
 		console.log( err );
 	}
 	
-
+	
 	// ProductModel.find(
 	// 	{category: category}
 	// ).where('_id').ne(excludeId)
@@ -249,195 +252,280 @@ const getProductCategory = async (req, res) => {
 };
 
 const getProduct = async (req, res) => {
-
+	
+	/*
+		Queries:
+			
+			---> *NOTA: title, id y ownerId NO son combinables!
+			
+			
+			* title (que contenga esas palabras)
+				title=a	
+				title=silla
+				title=silla+negra
+			
+			* id
+				id= <_id de mongo>
+			
+			* ownerId
+				id= <_id de mongo>
+			
+			isActive (default true)
+				isActive=false
+			
+			sort (default pa)
+				sort=pa
+				
+				- pa: price ascendant
+				- pd: price descendant
+				- ra: rating ascendant
+				- rd: rating descendant
+				- tsa: times sold ascendant
+				- tsd: times sold descendant
+			
+			limit (default 500)
+				limit=20
+				
+			skip (default 0)
+				skip=20
+			
+			category
+				category=electron
+				
+			minPrice
+				minPrice=100
+			
+			maxPrice
+				maxPrice= 500
+			
+			.
+		.
+		
+	*/
+	
+	
+	
+	// ----------------
+	// Stage MATCH
+	// ----------------
+	
 	let productId = req.query.id;
 	let productTitle = req.query.title;
-	let ownerId = ObjectId(req.query.ownerId);
+	let ownerId = ObjectId(req.query.ownerId);	
+	
+	stage_match = {
+		// _id: "asjdlkjasdlkj",
+		// title: "hola",
+		// ownerId: "asdasd",
+		// category: "electron"
+	};
 	
 	
-	if (productTitle) {
+	switch (true) {
 		
-		// Filtros
-		let minPrice = req.query.minPrice;
-		let maxPrice = req.query.maxPrice;
-		let sort = req.query.sort; // pa, pd, va, vd
-		let category = req.query.category;
+		case !!productId:
+			stage_match._id = productId;
+			stage_match.isActive = true;
+		break;
 		
-		
-		// Construyo obj para .sort si me lo piden
-		let objSort = {};
-		
-		if (sort) {
-			switch (sort) {
-				
-				case "pa": 
-					objSort.price = 1;
-				break;
-				case "pd":
-					objSort.price = -1;
-				break;
-				case "va":
-					objSort.rating = 1;
-				break;
-				case "vd":
-					objSort.rating = -1;
-				break;
-				
-				default:
-					objSort.price = -1;
-				break;
-				
-			};
+		case !!productTitle:
 			
-		} else {
-			objSort.price = -1;
-		};
-		
-		
-		// Main query
-		objMainQuery = {
-			title: {$regex: `.*${productTitle}.*`, $options: "i"},
-			isActive: true
-		};
-		
-		
-		// Si hubiese filtro de categoría, añado a la main query
-		if (category) {
-			objMainQuery.category = category;
-		};
-		
-		
-		// Si hubiese filtro de precio, añado a la main query
-		if (minPrice) {
+			if (productTitle === "%any") {productTitle = ""};
 			
-			if (! objMainQuery.price) {
-				objMainQuery.price = {};
-			};
-			
-			objMainQuery.price.$gte = minPrice;
-		};
-		if (maxPrice) {
-			
-			if (! objMainQuery.price) {
-				objMainQuery.price = {};
-			};
-			
-			objMainQuery.price.$lte = maxPrice;
-		}; // esto quedaría así ---> { $gte: minPrice, $lte: maxPrice }
+			stage_match.title = {$regex: `.*${productTitle}.*`, $options: "i"};
+			stage_match.isActive = true;
+		break;
 		
-		
-		
-		// Llamo a la DB
-		// ProductModel.find(
-		// 	objMainQuery
-		// )
-		// .sort( objSort )
-		// .then( (products) => {
-			
-		// 	if (products) {
-		// 		res.send(products);
-		// 	} else {
-		// 		res.send({message: `Products not found.`});
-		// 	}
-			
-		// }).catch( (err) => {
-		// 	console.log( err );
-		// });
-		
-		
-		
-		ProductModel.aggregate([
-			
-			{ $match: objMainQuery },
-			{ $sort: objSort },
-			{ $lookup:
-				{
-					from: "users",
-					localField: "ownerId",
-					foreignField: "_id",
-					as: "__ownerUsername"
-				}
-			},
-			{ $unwind: "$__ownerUsername"},
-			{ $addFields: {
-				   _ownerUsername: "$__ownerUsername.username"
-				}
-			},
-			
-			
-			
-			{ $lookup:
-				{
-					from: "ratings",
-					localField: "ownerId",
-					foreignField: "ratedId",
-					as: "__karma"
-				}
-			},
-			{ $addFields:
-				{
-					_totalKarma: {$sum: "$__karma.value"}
-				}
-			},
-			
-			
-			{ $project:
-				{
-					__ownerUsername: 0,
-					__karma: 0
-				}
-			}
-			
-			
-		]).then( (products) => {
-			
-			if (products) {
-				res.send(products);
-			} else {
-				res.send({message: `Products not found.`});
-			}
-			
-		}).catch( (err) => {
-			console.log( err );
-		});
-		
-		
-		
-	} else if (productId) {
-		
-		ProductModel.find(
-			{_id: productId}
-		).then( (products) => {
-			
-			if (products) {
-				res.send(products);
-			} else {
-				res.send({message: `Products not found.`});
-			}
-			
-		}).catch( (err) => {
-			console.log( err );
-		});
-		
-		
-		
-	} else if (ownerId) {
-		
-		ProductModel.find(
-			{ownerId: ownerId}
-		).then( (products) => {
-			
-			if (products) {
-				res.send(products);
-			} else {
-				res.send({message: `Products not found.`});
-			}
-			
-		}).catch( (err) => {
-			console.log( err );
-		});
+		case !!ownerId:
+			stage_match.ownerId = ownerId;
+			stage_match.isActive = true;
+		break;
 		
 	};
+	
+	
+	
+	// Si hubiese filtro de activo, lo añado
+	let isActive = req.query.cateisActivegory;
+	
+	if (category) {
+		stage_match.isActive = (isActive == "true");
+	};
+	
+	
+	// Si hubiese filtro de categoría, lo añado
+	let category = req.query.category;
+	
+	if (category) {
+		stage_match.category = category;
+	};
+	
+	
+	// Si hubiese filtro de precios, lo añado
+	let minPrice = req.query.minPrice;
+	let maxPrice = req.query.maxPrice;	
+	
+	if (minPrice && maxPrice) {
+		
+		stage_match.price = {
+			$gte: parseInt(minPrice),
+			$lte: parseInt(maxPrice)
+		};
+		
+	} else {
+		
+		if (minPrice) {
+			stage_match.price = {
+				$gte: parseInt(minPrice)
+			};
+		};
+		
+		if (maxPrice) {
+			stage_match.price = {
+				$lte: parseInt(maxPrice)
+			};
+		};
+		
+	};
+	
+	
+	// ----------------
+	// Stage SORT
+	// ----------------
+	
+	let sort = req.query.sort;
+	
+	let stage_sort = {};
+	
+	
+	if (sort) {
+		switch (sort) {
+			
+			case "pa": 
+				stage_sort.price = 1;
+			break;
+			case "pd":
+				stage_sort.price = -1;
+			break;
+			
+			case "ra":
+				stage_sort.rating = 1;
+			break;
+			case "rd":
+				stage_sort.rating = -1;
+			break;
+			
+			case "tsa":
+				stage_sort.timesSold = 1;
+			break;
+			case "tsd":
+				stage_sort.timesSold = -1;
+			break;
+			
+			default:
+				stage_sort.price = -1;
+			break;
+			
+		};
+		
+	} else {
+		stage_sort.price = -1;
+	};	
+	
+	
+	
+	// ----------------
+	// Stage LIMIT
+	// ----------------
+	
+	let limit = req.query.limit;	
+	
+	stage_limit = 500;
+	
+	
+	if (limit) {
+		stage_limit = parseInt(limit);
+	};
+	
+	
+	
+	// ----------------
+	// Stage SKIP
+	// ----------------
+	
+	let skip = req.query.skip;	
+	
+	stage_skip = 0;
+	
+	
+	if (skip) {
+		stage_skip = parseInt(skip);
+	};
+	
+	
+	
+	// ----------------
+	// Finalizo
+	// ----------------
+	
+	ProductModel.aggregate([
+		
+		{ $match: stage_match },
+		{ $sort: stage_sort },
+		{ $skip: stage_skip },
+		{ $limit: stage_limit },
+		
+		{ $lookup:
+			{
+				from: "users",
+				localField: "ownerId",
+				foreignField: "_id",
+				as: "__ownerUsername"
+			}
+		},
+		{ $unwind: "$__ownerUsername"},
+		{ $addFields: {
+				_ownerUsername: "$__ownerUsername.username"
+			}
+		},
+		
+		
+		
+		{ $lookup:
+			{
+				from: "ratings",
+				localField: "ownerId",
+				foreignField: "ratedId",
+				as: "__karma"
+			}
+		},
+		{ $addFields:
+			{
+				_totalKarma: {$sum: "$__karma.value"}
+			}
+		},
+		
+		
+		
+		{ $project:
+			{
+				__ownerUsername: 0,
+				__karma: 0
+			}
+		}
+		
+	]).then( (products) => {
+		
+		if (products) {
+			res.send(products);
+		} else {
+			res.send({message: `Products not found.`});
+		}
+		
+	}).catch( (err) => {
+		console.log( err );
+	});
+		
 	
 	
 };

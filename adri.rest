@@ -104,6 +104,16 @@ POST {{url}}/rating/rated?id=5de6863f19d26244901c7ec2
 GET {{url}}/product/get?title=silla+blanca
 ###
 
+// --- TEST 1
+GET {{url}}/product/get?title=%any&sort=pa&limit=10
+###
+
+// --- TEST 2
+GET {{url}}/product/econ
+###
+
+
+
 // Show products by Title and sort price descendant
 GET {{url}}/product/get?title=u&sort=pd
 ###
