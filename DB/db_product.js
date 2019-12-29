@@ -131,6 +131,20 @@ const getAllProduct = async (req, res) => {
 	
 };
 
+const getByOwner = async (req, res) => {
+
+	let ownerId = req.query.ownerId;
+	
+	ProductModel.find(
+		{ownerId: ownerId}
+	).then( (products) => {
+		res.send(products);
+	}).catch( (err) => {
+		console.log( err );
+	});
+	
+};
+
 const getBestSellingProduct = async (req, res) => {
 	let num;
 
@@ -433,6 +447,7 @@ module.exports = {
 	deleteProduct,
 	editProduct,
 	getAllProduct,
+	getByOwner,
 	getBestSellingProduct,
 	getBestVotedProduct,
 	getEconomicProduct,
