@@ -348,7 +348,7 @@ const getProduct = async (req, res) => {
 	// Si hubiese filtro de activo, lo añado
 	let isActive = req.query.cateisActivegory;
 	
-	if (category) {
+	if (isActive) {
 		stage_match.isActive = (isActive == "true");
 	};
 	
