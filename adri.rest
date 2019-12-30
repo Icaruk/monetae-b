@@ -101,11 +101,11 @@ POST {{url}}/rating/rated?id=5de6863f19d26244901c7ec2
 // -----------------
 
 // Show products by Title
-GET {{url}}/product/get?title=silla+blanca
+GET {{url}}/product/get?isActive=true&title=silla+blanca
 ###
 
 // --- TEST 1
-GET {{url}}/product/get?title=%any&sort=pa&limit=10
+GET {{url}}/product/get?sort=tsd&limit=10
 ###
 
 // --- TEST 2

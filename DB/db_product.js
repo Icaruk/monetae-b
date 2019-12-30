@@ -311,7 +311,7 @@ const getProduct = async (req, res) => {
 	
 	let productId = req.query.id;
 	let productTitle = req.query.title;
-	let ownerId = ObjectId(req.query.ownerId);	
+	let ownerId = req.query.ownerId;	
 	
 	stage_match = {
 		// _id: "asjdlkjasdlkj",
@@ -337,7 +337,7 @@ const getProduct = async (req, res) => {
 		break;
 		
 		case !!ownerId:
-			stage_match.ownerId = ownerId;
+			stage_match.ownerId = ObjectId(ownerId);
 			stage_match.isActive = true;
 		break;
 		
@@ -346,7 +346,7 @@ const getProduct = async (req, res) => {
 	
 	
 	// Si hubiese filtro de activo, lo añado
-	let isActive = req.query.cateisActivegory;
+	let isActive = req.query.isActive;
 	
 	if (isActive) {
 		stage_match.isActive = (isActive == "true");
@@ -465,13 +465,31 @@ const getProduct = async (req, res) => {
 	
 	
 	// ----------------
-	// Finalizo
+	// Genero el array del AGGREGATE
 	// ----------------
 	
-	ProductModel.aggregate([
+	let arrAggregate = [];
+	
+	
+	// Stages opcionales
+	if (Object.keys(stage_match).length !== 0) {
+		arrAggregate.push( { $match: stage_match } );
+	};
+	
+	if (Object.keys(stage_sort).length !== 0) {
+		arrAggregate.push( { $sort: stage_sort } );
+	};
+	
+	
+	
+	// Stages obligatorias
+	arrAggregate = [
 		
-		{ $match: stage_match },
-		{ $sort: stage_sort },
+		...arrAggregate,
+		
+		
+		// { $match: stage_match },
+		// { $sort: stage_sort },
 		{ $skip: stage_skip },
 		{ $limit: stage_limit },
 		
@@ -501,7 +519,7 @@ const getProduct = async (req, res) => {
 		},
 		{ $addFields:
 			{
-				_totalKarma: {$sum: "$__karma.value"}
+				_ownerKarma: {$sum: "$__karma.value"}
 			}
 		},
 		
@@ -514,7 +532,15 @@ const getProduct = async (req, res) => {
 			}
 		}
 		
-	]).then( (products) => {
+	];
+	
+	
+	
+	// ----------------
+	// Finalizo
+	// ----------------
+	
+	ProductModel.aggregate(arrAggregate).then( (products) => {
 		
 		if (products) {
 			res.send(products);
@@ -525,7 +551,6 @@ const getProduct = async (req, res) => {
 	}).catch( (err) => {
 		console.log( err );
 	});
-		
 	
 	
 };
