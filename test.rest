@@ -134,6 +134,8 @@ Content-Type:application/json
 	"imageUrl": ["hahahahahahaasd.jpg","wwe.jpg"],
 	"title":  "66677788888888888",
 	"description": "sigue siendo mega bueno",
+	"location": "almacen01",
+	"category": "electron",
 	"price": 444,
 	"stock": 99,
 	"activeStock": 5000,

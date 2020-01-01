@@ -49,7 +49,7 @@ const editProduct = async (req, res) => {
 	// Esta movida se haría en el front
 	// Aquí recibiríamos objLimpio 
 	let objLimpio = {};
-	let arr = ["imageUrl", "title", "description", "price", "stock", "activeStock", "isActive"];
+	let arr = ["imageUrl", "title", "description", "location", "category", "price", "stock", "activeStock", "isActive"];
 	
 	for (let _x of arr) {
 		if (req.body[_x]) {
