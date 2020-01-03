@@ -8,19 +8,20 @@ const addPurchase = async (req, res) => {
 	try {
 		
 		let body = req.body;
+		let fecha = Date.now();
 		
 		const purchase = await new PurchaseModel({
 			buyerId: 			ObjectId(body.buyerId),
 			sellerId: 			ObjectId(body.sellerId),
-			date: 				body.date,
-			originCity: 		body.originCity,
-			originCountry: 		body.originCountry,
+			date: 				fecha,
+			originLocation:     body.originLocation,
+			// originCity: 		body.originCity,
+			// originCountry: 		body.originCountry,
 			destinationCity: 	body.destinationCity,
 			destinationCountry: body.destinationCountry,
 			items: 				body.items,
-			values: 			body.values,
 			totalValue: 		body.totalValue,
-			status: 			body.status
+			status: 			0
 		}).save();
 		
 		

@@ -14,13 +14,16 @@ const PurchaseSchema = mongoose.Schema({
 	date: {
         type: Date,
         default: () => Date.now()
-	},
-	originCity: {
-		type: Array
-	},
-	originCountry: {
-        type: String
     },
+    originLocation: {
+        type: Array
+    },
+	// originCity: {
+	// 	type: Array
+	// },
+	// originCountry: {
+    //     type: String
+    // },
 	destinationCity: {
         type: String
     },
@@ -30,9 +33,9 @@ const PurchaseSchema = mongoose.Schema({
     items: {
 		type: Array,
 	},
-    values: {
-        type: Array,
-    },
+    // values: {
+    //     type: Array,
+    // },
     totalValue: {
         type: Number,
         default: 0
