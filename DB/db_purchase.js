@@ -12,6 +12,7 @@ const addPurchase = async (req, res) => {
 		const purchase = await new PurchaseModel({
 			buyerId: 			ObjectId(body.buyerId),
 			sellerId: 			ObjectId(body.sellerId),
+			date: 				body.date,
 			originCity: 		body.originCity,
 			originCountry: 		body.originCountry,
 			destinationCity: 	body.destinationCity,
@@ -24,7 +25,7 @@ const addPurchase = async (req, res) => {
 		
 		
 		res.send({
-			message: "Purchase created successfully.",
+			message: "Compra realizada con éxito.",
 			purchaseInfo: purchase
 		});
 		
@@ -40,14 +41,19 @@ const addPurchase = async (req, res) => {
 
 
 const getPurchase = async (req, res) => {
+
+	
 	
 	let query = req.query;
+
+	
 	
 	let id = query.id;
 	let buyerId = query.buyerId;
 	let sellerId = query.sellerId;
 	let destinationCountry = query.destinationCountry;
 	let destinationCity = query.destinationCity;
+	
 	
 	
 	try {

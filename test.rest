@@ -186,3 +186,11 @@ GET {{url}}/product/get?id=5de93163dc4bc910489ce0f2&token={{token}}
 // Show products by Title
 GET {{url}}/product/get?title=u67
 ###
+
+// ------------------
+// P U R C H A S E S 
+// ------------------
+
+// Show all purchases
+GET {{url}}/purchase/get
+###
