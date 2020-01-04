@@ -43,8 +43,6 @@ const addPurchase = async (req, res) => {
 
 const getPurchase = async (req, res) => {
 
-	console.log("1");
-
 	let query = req.query;
 
 	let id = query.id;
