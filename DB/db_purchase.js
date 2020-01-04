@@ -43,19 +43,15 @@ const addPurchase = async (req, res) => {
 
 const getPurchase = async (req, res) => {
 
-	
-	
+	console.log("1");
+
 	let query = req.query;
 
-	
-	
 	let id = query.id;
 	let buyerId = query.buyerId;
 	let sellerId = query.sellerId;
 	let destinationCountry = query.destinationCountry;
 	let destinationCity = query.destinationCity;
-	
-	
 	
 	try {
 		
@@ -112,6 +108,14 @@ const getPurchase = async (req, res) => {
 				
 				res.send(purchase);
 				
+			break;
+
+			default:
+				
+				purchase = await PurchaseModel.find({});
+				
+				res.send(purchase);
+
 			break;
 			
 		};
