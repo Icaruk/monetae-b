@@ -12,8 +12,7 @@ const PurchaseSchema = mongoose.Schema({
 		type: ObjectId
 	},
 	date: {
-        type: Date,
-        default: () => Date.now()
+        type: String
     },
     originLocation: {
         type: Array
