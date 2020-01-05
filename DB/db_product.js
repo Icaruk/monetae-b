@@ -324,7 +324,7 @@ const getProduct = async (req, res) => {
 	switch (true) {
 		
 		case !!productId:
-			stage_match._id = productId;
+			stage_match._id = ObjectId(productId);
 			stage_match.isActive = true;
 		break;
 		
