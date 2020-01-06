@@ -11,6 +11,9 @@ const PurchaseSchema = mongoose.Schema({
     sellerId: {
 		type: ObjectId
 	},
+    productId: {
+		type: ObjectId
+	},
 	date: {
         type: String
     },

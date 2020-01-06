@@ -14,6 +14,7 @@ const addPurchase = async (req, res) => {
 		const purchase = await new PurchaseModel({
 			buyerId: 			ObjectId(body.buyerId),
 			sellerId: 			ObjectId(body.sellerId),
+			productId: 			ObjectId(body.productId),
 			date: 				fecha,
 			originLocation:     body.originLocation,
 			// originCity: 		body.originCity,
@@ -45,7 +46,47 @@ const addPurchase = async (req, res) => {
 const getPurchase = async (req, res) => {
 
 	let query = req.query;
-
+	
+	
+	
+	// ----------------
+	// Stage MATCH
+	// ----------------
+	
+	let productId = req.query.productId;
+	let buyerId = req.query.buyerId;
+	let sellerId = req.query.sellerId;
+	
+	
+	stage_match = {};
+	
+	
+	switch (true) {
+		
+		case !!productId:
+			stage_match.productId = ObjectId(productId);
+		break;
+		
+		case !!buyerId:
+			stage_match.buyerId = ObjectId(buyerId);
+		break;
+		
+		case !!sellerId:
+			stage_match.sellerId = ObjectId(sellerId);
+		break;
+		
+	};
+	
+	
+	// Si hubiese filtro de status, lo añado
+	let status = req.query.status;
+		
+	if (status) {
+		stage_match.status = parseInt(status);
+	};
+	
+	
+	
 	// ----------------
 	// Stage LIMIT
 	// ----------------
@@ -53,13 +94,24 @@ const getPurchase = async (req, res) => {
 	// let limit = req.query.limit;	
 	
 	let stage_limit = 500;
-
+	
+	
+	
 	// ----------------
 	// Genero el array del AGGREGATE
 	// ----------------
 	
 	let arrAggregate = [];
-
+	
+	
+	// Stages opcionales
+	if (Object.keys(stage_match).length !== 0) {
+		arrAggregate.push( { $match: stage_match } );
+	};
+	
+	
+	console.log( stage_match );
+	
 	// Stages obligatorias
 	arrAggregate = [
 		
@@ -81,7 +133,7 @@ const getPurchase = async (req, res) => {
 		},
 		{ $unwind: "$__sellerUsername"},
 		{ $addFields: {
-				_ownerUsername: "$__sellerUsername.username"
+				_sellerUsername: "$__sellerUsername.username"
 			}
 		},
 		
@@ -97,10 +149,17 @@ const getPurchase = async (req, res) => {
 		{ $addFields: {
 				_buyerUsername: "$__buyerUsername.username"
 			}
+		},
+		
+		{ $project:
+			{
+				__sellerUsername: 0,
+				__buyerUsername: 0
+			}
 		}
 		
 	];
-
+	
 	
 	// ----------------
 	// Finalizo
