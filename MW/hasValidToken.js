@@ -78,7 +78,7 @@ const responseToken = (resId, res) => {
 		
 		case "invalid":
 			
-			res.status(400);
+			res.status(401);
 			res.send({
 				errorCode: "token_1",
 				error: "Invalid token provided."

@@ -1,23 +1,25 @@
 
 const mongoose = require("mongoose");
+const ObjectId = mongoose.Types.ObjectId;
 
 
 const RatingSchema = mongoose.Schema({
 	
-	itemId: {
-		type: String
+	productId: {
+		type: ObjectId
 	},
 	raterId: {
-		type: String
+		type: ObjectId
 	},
 	ratedId: {
-		type: String
+		type: ObjectId
 	},
 	value: {
 		type: Number
 	},
 	comment: {
-		type: String
+		type: String,
+		default: ""
 	}
 	
 });

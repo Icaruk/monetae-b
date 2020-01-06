@@ -1,4 +1,3 @@
-
 const UserModel = require("../models/User");
 const TokenModel = require("../models/Token");
 const bcrypt = require("bcryptjs");
@@ -14,9 +13,12 @@ const registerUser = async (req, res) => {
 			username: bodyData.username,
 			email: bodyData.email,
 			password: bodyData.password,
+			secretQuestion: bodyData.secretQuestion,
+			secretAnswer: bodyData.secretAnswer,
 			phone: bodyData.phone,
-			address: bodyData.address,
+			userType: bodyData.userType,
 			billing: bodyData.billing
+			
 		}).save();
 		
 		
@@ -104,7 +106,8 @@ const loginUser = async (req, res) => {
 					error: "User is already logged in.",
 					username: userFound.username,
 					userId: tokenFound.userId,
-					token: tokenFound._id
+					token: tokenFound._id,
+					userType: tokenFound.userType
 				});
 				
 			// No lo estaba
@@ -113,7 +116,8 @@ const loginUser = async (req, res) => {
 				// Creo nuevo token
 				let newToken = await new TokenModel ({
 					userId: userFound._id,
-					adminLevel: userFound.adminLevel
+					adminLevel: userFound.adminLevel,
+					userType: userFound.userType
 				}).save();
 				
 				
@@ -121,7 +125,8 @@ const loginUser = async (req, res) => {
 				res.send({
 					username: userFound.username,
 					userId: userFound._id,
-					token: newToken._id
+					token: newToken._id,
+					userType: userFound.userType
 				});
 				
 			};
@@ -171,7 +176,7 @@ const logoutUser = (req, res) => {
 const getUser = (req, res) => {
 	
 	let id = req.params.id;
-	// let token = req.params.token;
+	//let token = req.params.token;
 	
 	
 	UserModel.findById(
@@ -242,11 +247,129 @@ const deleteUser = (req, res) => {
 
 
 
+const userPassReset1 = async (req, res) => {
+	
+	let usernameOrEmail = req.body.username; // user o mail
+	
+	
+	try {
+		
+		// Pruebo a buscar por username
+		let userFound = await UserModel.findOne({
+			$or : [
+				{ username:  usernameOrEmail}, { email: usernameOrEmail }
+			]
+		}).select("secretQuestion secretAnswer");
+		
+		
+		if (!userFound) {
+			
+			res.status(404);
+			res.send({
+				errorCode: "user_recovery_1",
+				error: "User or email not found."
+			})
+			
+		} else {
+			
+			res.send({
+				secretQuestion: userFound.secretQuestion,
+				secretAnswer: userFound.secretAnswer
+			})
+			
+		};
+		
+		
+	} catch (err){
+		
+		console.log(err);
+		
+	}
+};
+
+const userPassReset2 = async (req, res) => {
+	
+	let username = req.body.username;
+	let userAnswer = req.body.userAnswer;
+	let newPassword = req.body.newPassword;
+	
+	
+	try {
+		
+		const foundUser = await UserModel.findOne({
+			username: username
+		});
+		
+		
+		if (! foundUser) {
+			
+			res.status(404);
+			res.send({
+				errorCode: "user_recovery_1",
+				error: "User or email not found."
+			});
+			
+			return;
+		};
+		
+		
+		if (foundUser.secretAnswer !== userAnswer) {
+			
+			res.status(404);
+			res.send({
+				errorCode: "user_recovery_2",
+				error: "Wrong secret answer."
+			});
+			
+			return;
+		};
+		
+		
+		
+		// Llamo para actualizar pass
+		const modifiedUser = await UserModel.updateOne({
+			username: username
+		}, {
+			password: newPassword
+		});
+		
+		
+		if (! modifiedUser) {
+			
+			res.status(500);
+			res.send({
+				errorCode: "user_recovery_99",
+				error: `The password has not been set for user ${username}.`
+			});	
+			
+			
+			return;
+			
+		};
+		
+		res.send({
+			message: `The password for ${username} has been reset.`,
+			username: username
+		});
+		
+		
+	} catch (err){
+		
+		console.log(err);
+		
+	};
+	
+};
+
+
+
 module.exports = {
 	registerUser,
 	getAllUsers,
 	getUser,
 	deleteUser,
 	loginUser,
-	logoutUser
+	logoutUser,
+	userPassReset1,
+	userPassReset2
 };

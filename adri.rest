@@ -1,0 +1,134 @@
+
+@url = http://localhost:3000
+
+###
+
+// -----------------
+// U S E R
+// -----------------
+
+// Register
+POST {{url}}/user/register
+Content-Type:application/json
+
+{
+	"username":  "Icaruk",
+	"email": "ica@ruk.com",
+	"password":  "1234",
+	"secretQuestion": "Perro actual",
+	"secretAnswer": "Nala",
+	"phone": "647123456",
+	"billing": {
+		"address": "c/ Falsa, 123",
+		"country": "Spain",
+		"city": "Valencia",
+		"paypal": "ica@ruk.com",
+		"card": {
+			"number": 123456789,
+			"owner": "Adrian Adrian Adrian",
+			"expireDate": [6, 22]
+		}
+	}	
+}
+###
+
+
+// Login
+# @name resLogin
+POST {{url}}/user/login
+Content-Type:application/json
+
+{
+	"username":  "Icaruk",
+	"password":  "1234"
+}
+###
+
+
+@userId = {{resLogin.response.body.userId}}
+@token = {{resLogin.response.body.token}}
+
+
+// Logout
+GET {{url}}/user/logout?token={{token}}
+###
+
+
+// Ver datos del usuario
+GET {{url}}/user/{{userId}}?token={{token}}
+###
+
+
+// Delete user
+DELETE {{url}}/user/delete/{{userId}}?token={{token}}
+###
+
+
+
+// -----------------
+// R A T I N G
+// -----------------
+
+
+GET {{url}}/rating/all
+###
+
+
+GET {{url}}/rating/feedback?id=5de7b5b0a645b84394046e69
+###
+
+
+POST {{url}}/rating/add
+Content-Type:application/json
+
+{
+	"productId": "5de6863f19d26244901c5ec0",
+	"raterId": "5de7b5b0a645b84394046e69",
+	"ratedId": "5de68712435a4a01b0eba786",
+	"value": 1,
+	"comment": "Felipe --> Juanito comentario genérico 03"
+}
+###
+
+
+POST {{url}}/rating/rated?id=5de6863f19d26244901c7ec2
+###
+
+
+
+// -----------------
+// P R O D U C T
+// -----------------
+
+// Show products by Title
+GET {{url}}/product/get?isActive=true&title=silla+blanca
+###
+
+// --- TEST 1
+GET {{url}}/product/get?sort=tsd&limit=10
+###
+
+// --- TEST 2
+GET {{url}}/product/econ
+###
+
+
+
+// Show products by Title and sort price descendant
+GET {{url}}/product/get?title=u&sort=pd
+###
+
+// Show products by Title and sort price descendant and category "alimentación"
+GET {{url}}/product/get?title=u&sort=pd&category=ali
+###
+
+
+
+// -----------------
+// P U R C H A S E
+// -----------------
+
+// Get purchases
+GET {{url}}/purchase/get?productId=5dfa12dd41742829cce14f18&status=3
+###
+

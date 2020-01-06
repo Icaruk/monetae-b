@@ -11,6 +11,10 @@ const TokenSchema = mongoose.Schema({
 		type: Number,
 		default: 0
 	},
+	userType: {
+		type: Number,
+		default: 0
+	},
 	endDate: {
 		type: Date,
 		default: () => Date.now() + 7 * 24 * 60 * 60 * 1000

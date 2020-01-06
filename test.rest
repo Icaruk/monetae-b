@@ -1,31 +1,47 @@
 
+@url = http://localhost:3000
+
+###
+
+// -----------------
+// U S E R
+// -----------------
+
 // Register
-POST http://localhost:3000/user/register
+POST {{url}}/user/register
 Content-Type:application/json
 
 {
-	"username":  "Icaruk",
-	"email": "asd@asd.com",
+	"username":  "Jacinto",
+	"email": "jac@jac",
 	"password":  "1234",
+	"secretQuestion": "como se llamaba tu perro?",
+	"secretAnswer": "toby",
 	"phone": "647123456",
-	"address": "c/ Falsa, 123",
+	"userType": 0,
 	"billing": {
-		"cardNumber": 123456789,
-		"cardOwner": "Adrian Apellido Apellido",
-		"cardExpireDate": [6, 22]
-	}
+		"address": "c/ Falsa, 123",
+		"country": "Finland",
+		"city": "Helsinki",
+		"paypal": "jac@jac",
+		"card": {
+			"number": 33336666,
+			"owner": "Jose Jacinto Javier",
+			"expireDate": [6, 22]
+		}
+	}	
 }
 ###
 
 
 // Login
 # @name resLogin
-POST http://localhost:3000/user/login
+POST {{url}}/user/login
 Content-Type:application/json
 
 {
-	"username":  "Icaruk",
-	"password":  "1234"
+	"username":  "David",
+	"password":  "55555"
 }
 ###
 
@@ -34,19 +50,147 @@ Content-Type:application/json
 @token = {{resLogin.response.body.token}}
 
 
+
 // Logout
-GET http://localhost:3000/user/logout?token={{token}}
+GET {{url}}/user/logout?token={{token}}
 ###
 
 
 // Ver datos del usuario
-GET http://localhost:3000/user/{{userId}}?token={{token}}
+GET {{url}}/user/{{userId}}?token={{token}}
 ###
 
 
 // Delete user
-DELETE http://localhost:3000/user/delete/{{userId}}?token={{token}}
+DELETE {{url}}/user/delete/{{userId}}?token={{token}}
+###
+
+// Forgot Password
+POST {{url}}/user/forgotPassword?token={{token}}
+Content-Type:application/json
+
+{
+	"username": "Jacinto",
+	"secretAnswer": "toby",
+	"password":  "2222"
+}
 ###
 
 
+// -----------------
+// R A T I N G
+// -----------------
 
+
+GET {{url}}/rating/all
+###
+
+
+POST {{url}}/rating/add
+Content-Type:application/json
+
+{
+	"productId": "5de6863f19d26244901c5ec0",
+	"raterId": "5de6863f19d26244901c7ec2",
+	"ratedId": "5de6863f19d26244901c7ec2",
+	"value": 1,
+	"comment": "test 01"
+}
+###
+
+
+POST {{url}}/rating/rated?id=5de6863f19d26244901c7ec2
+###
+
+
+// -----------------
+// P R O D U C T
+// -----------------
+
+// Add
+POST {{url}}/product/add?token={{token}}
+Content-Type:application/json
+
+{
+	"ownerId" : "{{userId}}",
+	"category" : "Informatica",
+	"imageUrl": ["asd.jpg","wwe.jpg"],
+	"title":  "1234",
+	"description": "Es un super mega articulo fabuloso",
+	"price": 666,
+	"stock": 1000,
+	"activeStock": 2000,
+	"location" : "Valencia",
+	"isActive": true
+}
+###
+
+// Edit
+POST {{url}}/product/edit?token={{token}}
+Content-Type:application/json
+
+{
+	"productId":  "5de93163dc4bc910489ce0f2",
+	"imageUrl": ["hahahahahahaasd.jpg","wwe.jpg"],
+	"title":  "66677788888888888",
+	"description": "sigue siendo mega bueno",
+	"location": "almacen01",
+	"category": "electron",
+	"price": 444,
+	"stock": 99,
+	"activeStock": 5000,
+	"isActive": false
+}
+###
+
+// Delete product
+DELETE {{url}}/product/delete?id=5de93163dc4bc910489ce0f2&token={{token}}
+###
+
+// Show all products
+GET {{url}}/product/all
+###
+
+// Show best selling products
+GET {{url}}/product/best?limit=10
+###
+
+// Show most voted products
+GET {{url}}/product/voted?limit=10
+###
+
+// Show economic products
+GET {{url}}/product/econ?limit=10
+###
+
+// Show related category in detail products
+GET {{url}}/product/category?cat=aut&excludeId=5de92b6b42933a3b3403ce96&limit=10
+###
+
+// Show best selling items by category
+GET {{url}}/product/category?cat=aut&limit=10
+###
+
+// Show suggested products
+GET {{url}}/product/suggested?limit=10
+###
+
+// Show products of a certain Owner
+GET {{url}}/product/getByOwner?ownerId=5de92b6b42933a3b3403ce96&token={{token}}
+###
+
+// Show products by Id
+GET {{url}}/product/get?id=5de93163dc4bc910489ce0f2&token={{token}}
+###
+
+// Show products by Title
+GET {{url}}/product/get?title=u67
+###
+
+// ------------------
+// P U R C H A S E S 
+// ------------------
+
+// Show all purchases
+GET {{url}}/purchase/get
+###

@@ -17,6 +17,7 @@ const UserSchema = mongoose.Schema({
 	},
 	password: String,
 	secretQuestion: String,
+	secretAnswer: String,
 	phone: {
 		type: String,
 		unique: false,
@@ -27,6 +28,14 @@ const UserSchema = mongoose.Schema({
 		required: true,
 		
 		address: {
+			type: String,
+			required: true
+		},
+		country: {
+			type: String,
+			required: true
+		},
+		city: {
 			type: String,
 			required: true
 		},
@@ -55,10 +64,7 @@ const UserSchema = mongoose.Schema({
 	},
 	userType: {
 		type: Number,
-		required: true
-	},
-	rating: {
-		type: Number,
+		required: true,
 		default: 0
 	}
 	
