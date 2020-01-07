@@ -110,7 +110,6 @@ const getPurchase = async (req, res) => {
 	};
 	
 	
-	console.log( stage_match );
 	
 	// Stages obligatorias
 	arrAggregate = [
