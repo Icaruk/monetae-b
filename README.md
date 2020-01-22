@@ -9,7 +9,7 @@
 	- [User endpoints](#USER)
 	- [Product endpoints](#MOVIE)
 
-- [Frontend 👁‍🗨](#Frontend-)  
+- [Frontend (preview) 👁‍🗨](#Frontend-)  
 
 #
 
